@@ -7,7 +7,7 @@ router.post("/register", async (req, res) => {
   try {
     //generate new password
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const hashedPassword = await bcrypt.hash(req.body.password.toString(), salt);
 
     //create new user
     const newUser = new User({
@@ -34,7 +34,7 @@ router.post("/login", async (req, res) => {
 
     //validate password
     const validPassword = await bcrypt.compare(
-      req.body.password,
+      req.body.password.toString(),
       user.password
     );
     !validPassword && res.status(400).json("Wrong username or password");
